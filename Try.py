@@ -18,3 +18,4 @@ sns.countplot(
 )
 plt.title('Wine Data')
 plt.show()
+#just try to plot wine data from skycelearn dataset

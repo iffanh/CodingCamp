@@ -35,28 +35,21 @@ y=iris.target
 
 #DataPreprocessing and scale using standardscaler
 x_scaled=StandardScaler().fit_transform(x)
-df2=pd.DataFrame(x_scaled,columns=['1','2','3','4'])
-#print(x)
+#print(x_scaled)
 
 #Dimention reduction using PCA
-
 from sklearn.decomposition import PCA
 pca = PCA(n_components=3)
 pca_features = pca.fit_transform(x_scaled)
 
-print('Shape before PCA:',x_scaled.shape)
-print('Shape after PCA:',pca_features.shape)
+# print('Shape before PCA:',x_scaled.shape)
+# print('Shape after PCA:',pca_features.shape)
 
 pca_df=pd.DataFrame(
     data=pca_features,
     columns=['PCA1','PCA2','PCA3']
 )
 print(pca_df)
-
-
-
-
-
-
+#till print PCA 1 2 3
 
 
