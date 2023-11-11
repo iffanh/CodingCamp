@@ -22,7 +22,8 @@ gammag = 0.709
 R = 10.73
 miug = 0.0131
 roughness = 0.0006
-depth = 1500
+totaldepth = 1500
+incrementdepth = 150
 
 qmax = float(q/(1 - ( 0.2 * pwf / pr) - 0.8 *(( pwf/ pr) **2)))
 print("The Balue of qmax = ",qmax)
@@ -88,14 +89,41 @@ denavg = apasii.insituavg(lholdup, rho, rhog)
 dpdz = apasii.dpdz(denavg, ff, massrate, d)
 print("Value of dpdz is",dpdz)
 
-depth_list =[]
-for y in range (depth, 0, 150):
-    step = y
-    delta_y = depth - y
-    depth_list.append(step)
-    print(depth_list)
-
-
-
-
-
+# NYOBA UNTUK NEW PRESSURE
+vlp_list = []
+depth_list = []
+dpdz_list = []
+for depth in range (0, totaldepth, incrementdepth):
+    depth_list.append(depth)
+    deltpressure = incrementdepth * dpdz
+    P = P - deltpressure 
+    musg = apasii.musg(qg, d, Z, T, P)
+    mium = apasii.musg(qg, d, Z, T, P) + apasii.musl(q, d)
+    gasfrac = apasii.gasfrac(q, qg, d, T, P, Z)
+    LB = apasii.lb(q, qg, d, Z, T, P)
+    if LB >= 0.13:
+        LB = 0.13
+    else:
+        LBtetep1 = LB
+    if gasfrac > LB:
+        print("The flow regime is not bubble flow")
+    else:
+        print("The flow is bubble flow")
+    Nvl = apasii.nvl(q, d, rho, g, ift)
+    Nvg = apasii.nvg(qg, d, Z, T, P, rho, g, ift)
+    ND = apasii.nd(d, rho, ift)
+    NL = apasii.nl(miul, rho, ift)
+    CN = apasii.cnl(miul, rho, ift)
+    H = apasii.h(miul, rho, ift, q, d, g, qg, Z, T, P, CN)
+    yltao = apasii.yltao(H)
+    B = apasii.B(Nvg, NL, ND)
+    tao = apasii.tao(B)
+    lholdup = apasii.lholdup(yltao, tao)
+    rhog = apasii.rhog(gammag, P, Z, R, T)
+    massrate = apasii.massrate(d, musl, rho, musg, rhog)
+    reynold = apasii.reynold(d, miul, miug, lholdup, massrate)
+    ff = apasii.frictionfactor(roughness, reynold, d)
+    denavg = apasii.insituavg(lholdup, rho, rhog)
+    dpdz = apasii.dpdz(denavg, ff, massrate, d)
+    dpdz_list.append(dpdz)
+    print("Value of dpdz is", dpdz)
