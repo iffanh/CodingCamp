@@ -126,4 +126,23 @@ for depth in range (0, totaldepth, incrementdepth):
     denavg = apasii.insituavg(lholdup, rho, rhog)
     dpdz = apasii.dpdz(denavg, ff, massrate, d)
     dpdz_list.append(dpdz)
+    vlp_list.append(P)
     print("Value of dpdz is", dpdz)
+
+data_dpdz = np.array(vlp_list)
+data_depth = np.array(depth_list)
+
+print(vlp_list, data_depth)
+table_vlp = pd.DataFrame({'depth': depth_list, 'P': vlp_list})
+print(table_vlp)
+
+plt.plot(vlp_list,depth_list, label = "trial", color = "Blue")
+# plt.plot(data_qvlp,data_vlp, label = "TPR", color = "Red")
+
+
+plt.xlabel("vlp")
+plt.ylabel("depth")
+plt.title ("depth vs vlp")
+plt.legend()
+plt.grid()
+plt.show()
