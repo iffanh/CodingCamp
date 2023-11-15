@@ -22,8 +22,7 @@ gammag = 0.709
 R = 10.73
 miug = 0.0131
 roughness = 0.0006
-totaldepth = 1500
-incrementdepth = 150
+depth = 1500
 
 qmax = float(q/(1 - ( 0.2 * pwf / pr) - 0.8 *(( pwf/ pr) **2)))
 print("The Balue of qmax = ",qmax)
@@ -89,6 +88,7 @@ denavg = apasii.insituavg(lholdup, rho, rhog)
 dpdz = apasii.dpdz(denavg, ff, massrate, d)
 print("Value of dpdz is",dpdz)
 
+<<<<<<< HEAD
 # NYOBA UNTUK NEW PRESSURE
 vlp_list = []
 depth_list = []
@@ -146,3 +146,16 @@ plt.title ("depth vs vlp")
 plt.legend()
 plt.grid()
 plt.show()
+=======
+depth_list =[]
+for y in range (depth, 0, 150):
+    step = y
+    delta_y = depth - y
+    depth_list.append(step)
+    print(depth_list)
+
+
+
+
+
+>>>>>>> 60b0a4d94dc2d8d91cd146b28728f15e28e7b970
